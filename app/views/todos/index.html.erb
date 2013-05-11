@@ -1,0 +1,68 @@
+<title>Shared Todo App</title>
+<div class="container">
+
+  
+
+  <div class="row">
+  	<h1>Shared Todo App</h1>
+
+    <div class="span6">
+      
+      <hr>
+      <p>All your todos here</p>
+
+      	<%= form_for @todo, :url=>{:action=>"create"} do |f| %>
+      		<%= f.text_field :todo_item %>
+      		<%= f.submit "Add Todo", class:"btn btn-primary" %>
+      	<% end %>
+
+      	<% if !flash[:error].nil? %>
+      		<div class="alert alert-error">
+      			<button type="button" class="close" data-dismiss="alert">x</button>
+      			<strong><%= flash[:error] %></strong>
+      		</div>
+      	<% end %>
+
+      	<% if flash[:success] %>
+      			<div class="alert alert-success">
+      			<button type="button" class="close" data-dismiss="alert">x</button>
+      			<strong><%= flash[:success] %></strong>
+      			</div>
+      	<% end %>
+
+      <div class="well">
+
+        <%= form_tag(todos_complete_path, :method=>"post") do %>
+
+
+            <ul style="list-style-type:none">
+      			       <% @todos.each do |t| %>
+                          <% if t.completed== true %>
+                                <li style="color:grey;"><%= check_box_tag "todos_checkbox[]", t.id %>/<strike><%= t.todo_item %></strike>  <small>created on<%= t.created_at.strftime(" %d %b,%Y") %></small></li>
+
+                          <% else %>
+
+              			             <li><%= check_box_tag "todos_checkbox[]",t.id %><%= t.todo_item %> <small>created on<%= t.created_at.strftime(" %d %b,%Y") %></small></li>
+                                 
+                                 
+                          <% end %>
+                            <br>
+                            <%= link_to ' Show Todo', todo_path(t), class:"icon-external-link" %>
+                            <%= link_to ' Delete', t , method: :delete, data: { confirm:"Are you sure?"}, class:"icon-trash" %>
+                           
+                            <hr>
+      			       <% end %>
+            </ul>
+
+            <%= will_paginate @todos %>
+
+           <%= submit_tag("Complete Todo", :class=>"btn btn-success")%>
+
+        <% end %>
+		  </div>
+		</div>
+	</div>
+</div>
+
+
+	

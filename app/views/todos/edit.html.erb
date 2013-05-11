@@ -1,0 +1,16 @@
+
+<div class="span9 offset1">
+	<div class="well">
+
+		<h1>Edit Todo</h1>
+
+		<%= form_for @todo_items, :url=>{:action=>"update"} do |f| %>
+			<div><%= f.text_field :todo_item %></br>
+			<%= f.submit "Update", class:"btn btn-primary" %></div>
+		<% end %>	
+
+	</div>
+
+
+</div>
+	
